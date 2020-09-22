@@ -1,0 +1,13 @@
+name: Action Branch Check(stage)
+
+on:
+  pull_request:
+    branches: [stage]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/stage_test'
+    steps:
+      - name: check branch name 
+        run: exit 1
