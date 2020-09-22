@@ -2,7 +2,7 @@ name: Action Branch Check
 
 on:
   pull_request:
-    branches: [master]
+    branches: [stage]
 
 jobs:
   deploy:
