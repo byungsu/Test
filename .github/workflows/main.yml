@@ -2,12 +2,21 @@ name: Action Branch Check
 
 on:
   pull_request:
-    branches: [stage]
+    branches:
+      - master
+      - stage
+      - dev
 
 jobs:
-  deploy:
+  branch_check:
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/stage_test'
     steps:
-      - name: Deploy app 
+      - name: print current branch 
+        run: echo ${{github.ref}} 
+      - name: print error message 
+        run: echo ${{github.ref}} "It's not available branch. (dev->stage->master)"
+      - name: exit process
         run: exit 1
+        #  build:
+        #    need: branch_check
