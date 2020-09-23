@@ -1,13 +1,21 @@
-name: Action Branch Check
+name: Branch Check
 
 on:
   pull_request:
-    branches: [stage]
+    branches:
+      - master
+      - stage
+      - dev
 
 jobs:
-  deploy:
+  branch_check:
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/stage_test'
     steps:
-      - name: Deploy app 
-        run: exit 1
+      - name: check branches
+        if: (github.base_ref == 'master' && github.head_ref != 'stage') || (github.base_ref == 'stage' && github.head_ref != 'dev')
+        run: echo "source:" ${{ github.head_ref }} "target:" ${{ github.base_ref }} "It's not available branch. (dev->stage->master)" && exit 1
+      - name: success
+        if: ${{ success() }}
+        run: exit 0
+        #  build:
+        #    need: branch_check
